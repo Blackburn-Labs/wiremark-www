@@ -149,6 +149,12 @@ import sketch from '../assets/login-sketch.svg?raw';
 				<div class="card package">
 					<h3>
 						<a href="https://www.npmjs.com/package/@wiremark/core">@wiremark/core</a>
+						<img
+							class="npm-badge"
+							src="https://img.shields.io/npm/v/@wiremark/core"
+							alt="@wiremark/core version on npm"
+							loading="lazy"
+						/>
 					</h3>
 					<p>
 						The parser, layout engine, and hand-drawn SVG renderer behind
@@ -159,6 +165,12 @@ import sketch from '../assets/login-sketch.svg?raw';
 				<div class="card package">
 					<h3>
 						<a href="https://www.npmjs.com/package/@wiremark/cli">@wiremark/cli</a>
+						<img
+							class="npm-badge"
+							src="https://img.shields.io/npm/v/@wiremark/cli"
+							alt="@wiremark/cli version on npm"
+							loading="lazy"
+						/>
 					</h3>
 					<p>
 						The command-line renderer — turn a <code>.wiremark</code> file into
@@ -168,8 +180,7 @@ import sketch from '../assets/login-sketch.svg?raw';
 				</div>
 			</div>
 			<p class="packages-note">
-				MIT licensed. wiremark is young — the format is specified at v0.1 and
-				the renderer is under active development. Follow along on
+				MIT licensed. wiremark is young and under active development. Follow along on
 				<a href="https://github.com/Blackburn-Labs/wiremark">GitHub</a>.
 			</p>
 		</div>
@@ -419,6 +430,15 @@ import sketch from '../assets/login-sketch.svg?raw';
 	.package h3 {
 		font-family: var(--font-mono);
 		font-size: 1.05rem;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.npm-badge {
+		height: 1.25rem;
+		width: auto;
 	}
 
 	.package p {
