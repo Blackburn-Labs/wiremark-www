@@ -185,6 +185,57 @@ import sketch from '../assets/login-sketch.svg?raw';
 			</p>
 		</div>
 	</section>
+
+	<!-- ---- agent quick start ---- -->
+	<section class="section agents">
+		<div class="container">
+			<div class="agents-grid">
+				<div class="agents-intro">
+					<p class="agents-eyebrow">Agent quick start</p>
+					<h2>Working with an AI agent?</h2>
+					<p class="agents-lede">
+						wiremark is agent-first by design, so an LLM can usually write it
+						with no setup at all. But for a project that will lean on
+						wireframes heavily, give your agent a head start:
+					</p>
+				</div>
+				<div class="agents-paths">
+					<div class="card agent-card agent-card-skill">
+						<div class="agent-files"><code>SKILL.md</code></div>
+						<h3>Use the wiremark skill</h3>
+						<p>
+							A drop-in skill that teaches Claude the full format — and stays
+							out of the way until a wireframe comes up.
+						</p>
+						<a
+							class="agent-cta"
+							href="https://docs.wiremark.dev/tools/llm-guides#the-claude-skill"
+						>
+							Get the skill&nbsp;→
+						</a>
+					</div>
+					<div class="agent-or">or</div>
+					<div class="card agent-card agent-card-files">
+						<div class="agent-files">
+							<code>CLAUDE.md</code>
+							<code>AGENTS.md</code>
+						</div>
+						<h3>Point your agent at an instruction file</h3>
+						<p>
+							Ready-made guide files for any LLM — reference one by URL from
+							your agent's instructions, or download it straight into the repo.
+						</p>
+						<a
+							class="agent-cta"
+							href="https://docs.wiremark.dev/tools/llm-guides"
+						>
+							Browse the instruction files&nbsp;→
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </Layout>
 
 <style>
@@ -469,11 +520,130 @@ import sketch from '../assets/login-sketch.svg?raw';
 		font-size: 0.9375rem;
 	}
 
+	/* ---- agent quick start ---- */
+	.agents {
+		border-top: 1px solid var(--color-border-subtle);
+		/* same sketching-paper dot grid as the hero, bookending the page */
+		background-image: radial-gradient(var(--color-border-subtle) 1px, transparent 1px);
+		background-size: 24px 24px;
+	}
+
+	.agents-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+		align-items: center;
+		gap: 2.5rem 3.5rem;
+	}
+
+	.agents h2 {
+		text-align: left;
+		margin: 0 0 0.9rem;
+	}
+
+	.agents-eyebrow {
+		margin: 0 0 0.85rem;
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-primary);
+	}
+
+	.agents-lede {
+		margin: 0;
+		color: var(--color-text-secondary);
+		font-size: 1.0625rem;
+	}
+
+	.agents-paths {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.agent-card {
+		padding: 1.75rem;
+		transition: transform 0.25s ease;
+	}
+
+	.agent-card-skill {
+		transform: rotate(-0.45deg);
+	}
+
+	.agent-card-files {
+		transform: rotate(0.45deg);
+	}
+
+	.agent-card:hover,
+	.agent-card:focus-within {
+		transform: rotate(0deg);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.agent-card {
+			transition: none;
+		}
+	}
+
+	.agent-files {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin-bottom: 0.9rem;
+	}
+
+	.agent-files code {
+		font-size: 0.8125rem;
+		padding: 0.15rem 0.5rem;
+	}
+
+	.agent-cta {
+		display: inline-block;
+		margin-top: 1rem;
+		font-weight: 700;
+		font-size: 0.9375rem;
+	}
+
+	.agent-or {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		margin: 0.9rem 0;
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		color: var(--color-text-secondary);
+	}
+
+	.agent-or::before,
+	.agent-or::after {
+		content: '';
+		flex: 1;
+		border-top: 1px dashed var(--color-border);
+	}
+
 	/* ---- responsive ---- */
 	@media (max-width: 996px) {
 		.cards-3,
 		.cards-4 {
 			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.agents-grid {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 2rem;
+		}
+
+		.agents-intro {
+			text-align: center;
+		}
+
+		.agents h2 {
+			text-align: center;
+		}
+
+		.agents-lede {
+			max-width: 38rem;
+			margin: 0 auto;
 		}
 	}
 
