@@ -152,7 +152,7 @@ import sketch from '../assets/login-sketch.svg?raw';
 	<section class="section">
 		<div class="container">
 			<h2>Get wiremark</h2>
-			<div class="cards cards-2">
+			<div class="cards cards-3">
 				<div class="card package">
 					<h3>
 						<a href="https://www.npmjs.com/package/@wiremark/core">@wiremark/core</a>
@@ -168,6 +168,9 @@ import sketch from '../assets/login-sketch.svg?raw';
 						everything. Pure JS, no host dependencies.
 					</p>
 					<pre class="install"><code>npm install @wiremark/core</code></pre>
+					<a class="package-cta" href="https://www.npmjs.com/package/@wiremark/core">
+						View on npm&nbsp;→
+					</a>
 				</div>
 				<div class="card package">
 					<h3>
@@ -184,6 +187,32 @@ import sketch from '../assets/login-sketch.svg?raw';
 						an SVG without writing any code.
 					</p>
 					<pre class="install"><code>npx @wiremark/cli in.wiremark -o out.svg</code></pre>
+					<a class="package-cta" href="https://www.npmjs.com/package/@wiremark/cli">
+						View on npm&nbsp;→
+					</a>
+				</div>
+				<div class="card package">
+					<h3>
+						<a href="https://plugins.jetbrains.com/plugin/32236-wiremark">JetBrains IDE plugin</a>
+						<img
+							class="npm-badge"
+							src="https://img.shields.io/jetbrains/plugin/v/32236"
+							alt="wiremark plugin version on JetBrains Marketplace"
+							loading="lazy"
+						/>
+					</h3>
+					<p>
+						Live split-pane preview for <code>.wiremark</code> files and
+						wireframe blocks in Markdown — in IntelliJ IDEA, WebStorm, and
+						every JetBrains IDE.
+					</p>
+					<p>
+						Install from inside your IDE: search for
+						<strong>wiremark</strong> in the Plugins Marketplace.
+					</p>
+					<a class="package-cta" href="https://plugins.jetbrains.com/plugin/32236-wiremark">
+						View on the Marketplace&nbsp;→
+					</a>
 				</div>
 			</div>
 			<p class="packages-note">
@@ -499,8 +528,22 @@ import sketch from '../assets/login-sketch.svg?raw';
 		width: auto;
 	}
 
+	.package {
+		display: flex;
+		flex-direction: column;
+	}
+
 	.package p {
 		margin-bottom: 1rem;
+	}
+
+	/* margin-top: auto pins the link to the card bottom so all three align */
+	.package-cta {
+		align-self: flex-start;
+		margin-top: auto;
+		padding-top: 1rem;
+		font-weight: 700;
+		font-size: 0.9375rem;
 	}
 
 	.install {
