@@ -1,0 +1,13 @@
+# Netlify config for the wiremark marketing site (www.wiremark.dev).
+#
+# The docs site (docs.wiremark.dev) is a separate repo/deploy — see
+# Blackburn-Labs/wiremark, site/. This is a plain static Astro build:
+# `astro build` writes the site to dist/.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # package.json engines requires >=22.12.0
+  NODE_VERSION = "22"
