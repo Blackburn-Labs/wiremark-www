@@ -1,11 +1,483 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import sketch from '../assets/login-sketch.svg?raw';
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+	title="wiremark — text-based, markdown-embeddable wireframes"
+	description="wiremark is a concise, agent-friendly wireframing DSL inspired by YAML's simplicity and MUI's readability. Embed it in markdown or write standalone files; it renders as a hand-drawn sketch."
+>
+	<!-- ---- hero ---- -->
+	<section class="hero">
+		<img
+			class="hero-logo"
+			src="/wiremark-icon.svg"
+			alt=""
+			width="314"
+			height="176"
+		/>
+		<h1>wiremark</h1>
+		<p class="tagline">A text-based, markdown-embeddable wireframing format</p>
+		<p class="lede">
+			Inspired by <strong>YAML’s simplicity</strong> and
+			<strong><a href="https://mui.com/">MUI</a>’s readability</strong> —
+			a concise, agent-friendly, easy-to-read DSL for wireframes, rendered in
+			a hand-drawn, Balsamiq-like style. Embed it in markdown files the way
+			Mermaid does, or write it as standalone <code>.wiremark</code> files.
+		</p>
+		<div class="hero-actions">
+			<a class="button button-primary" href="https://docs.wiremark.dev/guides/introduction">
+				Read the docs
+			</a>
+			<a class="button button-outline" href="https://github.com/Blackburn-Labs/wiremark">
+				GitHub
+			</a>
+		</div>
+	</section>
+
+	<!-- ---- demo: source -> sketch ---- -->
+	<section class="demo">
+		<div class="container">
+			<div class="demo-grid">
+				<div class="demo-source">
+					<div class="demo-label">Write this in any markdown file…</div>
+					<pre
+						class="demo-code"><code><span class="tok-fence">```wireframe</span>
+<span class="tok-component">Wireframe</span> <span class="tok-attr">mobile</span>
+  <span class="tok-component">Stack</span> <span class="tok-attr">col</span> <span class="tok-attr">gap=2</span>
+    <span class="tok-component">Typography</span> <span class="tok-attr">h4</span> <span class="tok-string">"Sign in"</span>
+    <span class="tok-component">TextField</span> <span class="tok-string">"Email"</span>
+    <span class="tok-component">TextField</span> <span class="tok-string">"Password"</span>
+    <span class="tok-component">Button</span> <span class="tok-string">"Sign in"</span> <span class="tok-attr">primary</span>
+<span class="tok-fence">```</span></code></pre>
+				</div>
+				<div class="demo-arrow" aria-hidden="true">→</div>
+				<div class="demo-render">
+					<div class="demo-label">…and get this</div>
+					<div class="demo-sketch" set:html={sketch} />
+				</div>
+			</div>
+			<p class="demo-caption">
+				That block describes a phone-sized sign-in screen: a heading, two
+				fields, and a primary button. No coordinates, no styling, no
+				boilerplate — just the structure.
+			</p>
+		</div>
+	</section>
+
+	<!-- ---- mental model ---- -->
+	<section class="section">
+		<div class="container">
+			<h2>The whole format is three ideas</h2>
+			<div class="cards cards-3">
+				<div class="card">
+					<h3>Component names are MUI names</h3>
+					<p>
+						<code>Stack</code>, <code>Box</code>, <code>Typography</code>,
+						<code>Card</code>, <code>Grid</code>, <code>Button</code>,
+						<code>TextField</code>, <code>AppBar</code>, <code>List</code>, …
+						If you would reach for a component in Material UI, reach for the
+						same name here.
+					</p>
+				</div>
+				<div class="card">
+					<h3>Indentation is containment</h3>
+					<p>
+						A line indented under another line is its child. That single rule
+						replaces every wrapper, brace, and closing tag — the shape of the
+						text <em>is</em> the shape of the screen.
+					</p>
+				</div>
+				<div class="card">
+					<h3>Defaults do the work</h3>
+					<p>
+						A bare component name renders something sensible. A lone
+						<code>Typography</code> is a line of placeholder text; a lone
+						<code>Button</code> reads “Button”. You add detail only where it
+						communicates something.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ---- key ideas ---- -->
+	<section class="section section-alt">
+		<div class="container">
+			<h2>Built to live in your documents</h2>
+			<div class="cards cards-4">
+				<div class="feature">
+					<h3>Markdown-native</h3>
+					<p>
+						A wireframe is a fenced code block, so it travels with your specs,
+						PRDs, READMEs, and design notes — and renders inline via thin host
+						adapters (Obsidian, markdown-it, remark, …) over one pure core.
+					</p>
+				</div>
+				<div class="feature">
+					<h3>Flow for free</h3>
+					<p>
+						Frames are named with <code>#id</code> and linked with
+						<code>to=#id</code>, so an embedded navigation graph falls out of
+						the document automatically.
+					</p>
+				</div>
+				<div class="feature">
+					<h3>Agent-first</h3>
+					<p>
+						Intentionally low-ambiguity and low-token. An LLM can read, write,
+						and reason about a wireframe with no reference doc, leaning on what
+						it already knows about MUI.
+					</p>
+				</div>
+				<div class="feature">
+					<h3>Hand-drawn by default</h3>
+					<p>
+						Output is a deliberate sketch, not a polished mockup. A sketch
+						invites feedback on structure instead of bikeshedding on colors.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ---- packages ---- -->
+	<section class="section">
+		<div class="container">
+			<h2>Get wiremark</h2>
+			<div class="cards cards-2">
+				<div class="card package">
+					<h3>
+						<a href="https://www.npmjs.com/package/@wiremark/core">@wiremark/core</a>
+					</h3>
+					<p>
+						The parser, layout engine, and hand-drawn SVG renderer behind
+						everything. Pure JS, no host dependencies.
+					</p>
+					<pre class="install"><code>npm install @wiremark/core</code></pre>
+				</div>
+				<div class="card package">
+					<h3>
+						<a href="https://www.npmjs.com/package/@wiremark/cli">@wiremark/cli</a>
+					</h3>
+					<p>
+						The command-line renderer — turn a <code>.wiremark</code> file into
+						an SVG without writing any code.
+					</p>
+					<pre class="install"><code>npx @wiremark/cli in.wiremark -o out.svg</code></pre>
+				</div>
+			</div>
+			<p class="packages-note">
+				MIT licensed. wiremark is young — the format is specified at v0.1 and
+				the renderer is under active development. Follow along on
+				<a href="https://github.com/Blackburn-Labs/wiremark">GitHub</a>.
+			</p>
+		</div>
+	</section>
 </Layout>
+
+<style>
+	.container {
+		max-width: 1140px;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+
+	h2 {
+		font-size: 1.75rem;
+		line-height: 1.25;
+		margin: 0 0 1.75rem;
+		text-align: center;
+	}
+
+	/* ---- hero ---- */
+	.hero {
+		padding: 4.5rem 1rem 3.5rem;
+		text-align: center;
+		/* faint dot-grid, like sketching paper */
+		background-image: radial-gradient(var(--color-border-subtle) 1px, transparent 1px);
+		background-size: 24px 24px;
+	}
+
+	.hero-logo {
+		height: 11rem;
+		width: auto;
+		margin-bottom: 0.75rem;
+	}
+
+	.hero h1 {
+		font-size: 3.25rem;
+		line-height: 1.1;
+		margin: 0 0 0.75rem;
+	}
+
+	.tagline {
+		font-size: 1.375rem;
+		color: var(--color-text);
+		margin: 0 auto 1rem;
+	}
+
+	.lede {
+		max-width: 44rem;
+		margin: 0 auto 2rem;
+		color: var(--color-text-secondary);
+		font-size: 1.0625rem;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 0.75rem;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.button {
+		display: inline-block;
+		padding: 0.6rem 1.5rem;
+		border-radius: var(--radius);
+		font-weight: 700;
+		font-size: 1rem;
+		border: 1px solid transparent;
+	}
+
+	.button:hover {
+		text-decoration: none;
+	}
+
+	.button-primary {
+		background-color: var(--color-primary);
+		border-color: var(--color-primary);
+		color: #fff;
+	}
+
+	[data-theme='dark'] .button-primary {
+		color: #1b1b1d;
+	}
+
+	.button-primary:hover {
+		background-color: var(--color-primary-dark);
+		border-color: var(--color-primary-dark);
+	}
+
+	.button-outline {
+		border-color: var(--color-border);
+		color: var(--color-text);
+	}
+
+	.button-outline:hover {
+		background-color: var(--color-hover-overlay);
+	}
+
+	/* ---- demo ---- */
+	.demo {
+		padding: 3rem 0 1rem;
+	}
+
+	.demo-grid {
+		display: flex;
+		justify-content: center;
+		align-items: stretch;
+		gap: 1.75rem;
+		flex-wrap: wrap;
+	}
+
+	.demo-label {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--color-text-secondary);
+		margin-bottom: 0.6rem;
+	}
+
+	/* center the short code box against the tall phone sketch */
+	.demo-source {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.demo-render {
+		min-width: 0;
+	}
+
+	.demo-source .demo-code {
+		margin: auto 0;
+	}
+
+	.demo-arrow {
+		align-self: center;
+		font-size: 2rem;
+		color: var(--color-text-secondary);
+	}
+
+	.demo-code {
+		margin: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+		padding: 1rem 1.25rem;
+		background-color: var(--demo-code-bg);
+		color: var(--demo-code-text);
+		border-radius: var(--radius);
+		font-family: var(--font-mono);
+		font-size: 0.875rem;
+		line-height: 1.6;
+		overflow-x: auto;
+	}
+
+	[data-theme='dark'] .demo-code {
+		border: 1px solid var(--color-border-subtle);
+	}
+
+	/* the global inline-code chip style doesn't apply inside the demo block */
+	.demo-code code {
+		background: none;
+		border: 0;
+		padding: 0;
+		font-size: inherit;
+	}
+
+	.tok-fence { color: var(--tok-fence); }
+	.tok-component { color: var(--tok-component); }
+	.tok-anchor { color: var(--tok-anchor); }
+	.tok-attr { color: var(--tok-attr); }
+	.tok-string { color: var(--tok-string); }
+
+	.demo-sketch {
+		background-color: #fff;
+		border-radius: var(--radius);
+		border: 1px solid var(--color-border);
+		box-shadow: var(--card-shadow);
+		padding: 0.75rem;
+		transform: rotate(-0.4deg);
+	}
+
+	.demo-sketch :global(svg) {
+		display: block;
+		width: auto;
+		height: 440px;
+	}
+
+	.demo-caption {
+		max-width: 44rem;
+		margin: 2rem auto 0;
+		text-align: center;
+		color: var(--color-text-secondary);
+	}
+
+	/* ---- sections ---- */
+	.section {
+		padding: 3.5rem 0;
+	}
+
+	.section-alt {
+		background-color: var(--color-surface);
+		border-top: 1px solid var(--color-border-subtle);
+		border-bottom: 1px solid var(--color-border-subtle);
+	}
+
+	[data-theme='dark'] .section-alt {
+		background-color: #1f2022;
+	}
+
+	.cards {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	/* minmax(0, …) so a wide <pre> can't push the track past the viewport */
+	.cards-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.cards-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+	.card {
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: calc(var(--radius) * 2);
+		box-shadow: var(--card-shadow);
+		padding: 1.5rem;
+	}
+
+	.card h3,
+	.feature h3 {
+		font-size: 1.0625rem;
+		line-height: 1.3;
+		margin: 0 0 0.6rem;
+	}
+
+	.card p,
+	.feature p {
+		margin: 0;
+		color: var(--color-text-secondary);
+		font-size: 0.9375rem;
+	}
+
+	.feature h3 {
+		color: var(--color-primary);
+	}
+
+	/* ---- packages ---- */
+	.package h3 {
+		font-family: var(--font-mono);
+		font-size: 1.05rem;
+	}
+
+	.package p {
+		margin-bottom: 1rem;
+	}
+
+	.install {
+		margin: 0;
+		padding: 0.7rem 1rem;
+		background-color: var(--color-code-bg);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius);
+		overflow-x: auto;
+	}
+
+	.install code {
+		background: none;
+		border: 0;
+		padding: 0;
+		font-size: 0.875rem;
+	}
+
+	.packages-note {
+		margin: 2rem auto 0;
+		max-width: 44rem;
+		text-align: center;
+		color: var(--color-text-secondary);
+		font-size: 0.9375rem;
+	}
+
+	/* ---- responsive ---- */
+	@media (max-width: 996px) {
+		.cards-3,
+		.cards-4 {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.hero h1 {
+			font-size: 2.5rem;
+		}
+
+		.tagline {
+			font-size: 1.125rem;
+		}
+
+		.cards-2,
+		.cards-3,
+		.cards-4 {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.demo-arrow {
+			transform: rotate(90deg);
+		}
+
+		.demo-sketch :global(svg) {
+			height: 380px;
+		}
+	}
+</style>

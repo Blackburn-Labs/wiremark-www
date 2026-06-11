@@ -1,23 +1,390 @@
+---
+// Base layout for www.wiremark.dev.
+//
+// The theme deliberately mirrors the docs site (docs.wiremark.dev, Docusaurus
+// classic + Infima): same primary palette, font stacks, surfaces, navbar, and
+// dark footer. The docs' custom.css notes it is "the seam between the two
+// sites" — these tokens are that seam from this side.
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={Astro.site} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.site} />
+		<script is:inline>
+			// Set the theme before first paint. Matches the docs site default (dark).
+			document.documentElement.dataset.theme =
+				localStorage.getItem('theme') ?? 'dark';
+		</script>
 	</head>
 	<body>
-		<slot />
+		<!-- soft tinted glows in the two logo-gradient colors, behind everything -->
+		<div class="bg-decor" aria-hidden="true">
+			<div class="bg-blob bg-blob-cyan"></div>
+			<div class="bg-blob bg-blob-blue"></div>
+		</div>
+		<nav class="navbar">
+			<div class="navbar-inner">
+				<a class="navbar-brand" href="/">
+					<img
+						class="navbar-logo"
+						src="/wiremark-icon.svg"
+						alt=""
+						width="50"
+						height="28"
+					/>
+					wiremark
+				</a>
+				<div class="navbar-links">
+					<a href="https://docs.wiremark.dev/" class="navbar-link">Docs</a>
+					<a
+						href="https://github.com/Blackburn-Labs/wiremark"
+						class="navbar-link">GitHub</a
+					>
+					<button
+						id="theme-toggle"
+						type="button"
+						aria-label="Switch between dark and light mode"
+						title="Switch between dark and light mode"
+					>
+						<svg class="icon-light" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+							<path
+								fill="currentColor"
+								d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-2a1 1 0 0 1-1-1V2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1Zm0 16a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1ZM5 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1Zm16-1a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2h2ZM6.34 4.93l1.42 1.41A1 1 0 0 1 6.34 7.76L4.93 6.34a1 1 0 0 1 1.41-1.41Zm12.73 12.73 1.41 1.41a1 1 0 1 1-1.41 1.41l-1.41-1.41a1 1 0 0 1 1.41-1.41Zm0-11.32a1 1 0 0 1-1.41-1.41l1.41-1.41a1 1 0 1 1 1.41 1.41l-1.41 1.41ZM6.34 16.24a1 1 0 0 1 1.42 1.41l-1.42 1.42a1 1 0 0 1-1.41-1.42l1.41-1.41Z"
+							></path>
+						</svg>
+						<svg class="icon-dark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+							<path
+								fill="currentColor"
+								d="M9.37 5.51A7.35 7.35 0 0 0 9.1 7.5c0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27A7.014 7.014 0 0 1 12 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49zM12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"
+							></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</nav>
+
+		<main>
+			<slot />
+		</main>
+
+		<footer class="footer">
+			<div class="footer-inner">
+				<div class="footer-links">
+					<div class="footer-col">
+						<div class="footer-title">Docs</div>
+						<a href="https://docs.wiremark.dev/guides/introduction">Introduction</a>
+						<a href="https://docs.wiremark.dev/guides/getting-started">Getting started</a>
+						<a href="https://docs.wiremark.dev/reference/components">Component reference</a>
+					</div>
+					<div class="footer-col">
+						<div class="footer-title">Packages</div>
+						<a href="https://www.npmjs.com/package/@wiremark/core">@wiremark/core</a>
+						<a href="https://www.npmjs.com/package/@wiremark/cli">@wiremark/cli</a>
+					</div>
+					<div class="footer-col">
+						<div class="footer-title">More</div>
+						<a href="https://github.com/Blackburn-Labs/wiremark">GitHub</a>
+						<a href="https://docs.wiremark.dev/tools/cli">CLI guide</a>
+					</div>
+				</div>
+				<div class="footer-copyright">Copyright © 2026 Blackburn Labs</div>
+			</div>
+		</footer>
+
+		<script>
+			const toggle = document.getElementById('theme-toggle');
+			toggle?.addEventListener('click', () => {
+				const next =
+					document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+				document.documentElement.dataset.theme = next;
+				localStorage.setItem('theme', next);
+			});
+		</script>
 	</body>
 </html>
 
-<style>
+<style is:global>
+	/* Brand tokens shared with docs.wiremark.dev (Docusaurus/Infima values). */
+	:root {
+		--color-primary: #2563eb;
+		--color-primary-dark: #1d4ed8;
+		--color-primary-darker: #1e40af;
+		--color-background: #ffffff;
+		--color-surface: #ffffff;
+		--color-text: #1c1e21;
+		--color-text-secondary: #525860;
+		--color-border: #dadde1;
+		--color-border-subtle: #ebedf0;
+		--color-hover-overlay: rgba(0, 0, 0, 0.05);
+		--color-code-bg: #f6f7f8;
+		--navbar-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+		--card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+		--radius: 0.4rem;
+		--font-base: system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu,
+			Cantarell, 'Noto Sans', sans-serif, BlinkMacSystemFont, Helvetica, Arial,
+			'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+		--font-mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+			'Courier New', monospace;
+		/* hero code block tokens (prism-github-ish) */
+		--demo-code-bg: #f6f7f8;
+		--demo-code-text: #393a34;
+		--tok-fence: #6a737d;
+		--tok-component: #6f42c1;
+		--tok-anchor: #005cc5;
+		--tok-attr: #22863a;
+		--tok-string: #032f62;
+	}
+
+	[data-theme='dark'] {
+		--color-primary: #60a5fa;
+		--color-primary-dark: #3b82f6;
+		--color-primary-darker: #2563eb;
+		--color-background: #1b1b1d;
+		--color-surface: #242526;
+		--color-text: #e3e3e3;
+		--color-text-secondary: #a8b0b8;
+		--color-border: #444950;
+		--color-border-subtle: #34373c;
+		--color-hover-overlay: rgba(255, 255, 255, 0.05);
+		--color-code-bg: rgba(255, 255, 255, 0.1);
+		--navbar-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+		--card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+		/* hero code block tokens (prism-dracula-ish) */
+		--demo-code-bg: #282a36;
+		--demo-code-text: #f8f8f2;
+		--tok-fence: #6272a4;
+		--tok-component: #ff79c6;
+		--tok-anchor: #bd93f9;
+		--tok-attr: #50fa7b;
+		--tok-string: #f1fa8c;
+	}
+
+	html {
+		font-family: var(--font-base);
+		line-height: 1.65;
+		-webkit-font-smoothing: antialiased;
+		background-color: var(--color-background);
+		color: var(--color-text);
+	}
+
 	html,
 	body {
 		margin: 0;
-		width: 100%;
-		height: 100%;
+		padding: 0;
+	}
+
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		position: relative;
+	}
+
+	/* soft background tints in the logo-gradient colors */
+	.bg-decor {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		z-index: -1;
+		pointer-events: none;
+	}
+
+	.bg-blob {
+		position: absolute;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		filter: blur(100px);
+	}
+
+	.bg-blob-cyan {
+		top: -8rem;
+		right: -10rem;
+		width: min(40rem, 70vw);
+		background-color: rgba(92, 206, 222, 0.35);
+	}
+
+	.bg-blob-blue {
+		top: 48%;
+		left: -12rem;
+		width: min(44rem, 75vw);
+		background-color: rgba(57, 123, 203, 0.35);
+	}
+
+	[data-theme='dark'] .bg-blob-cyan {
+		background-color: rgba(92, 206, 222, 0.16);
+	}
+
+	[data-theme='dark'] .bg-blob-blue {
+		background-color: rgba(57, 123, 203, 0.2);
+	}
+
+	main {
+		flex: 1;
+	}
+
+	a {
+		color: var(--color-primary);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	code {
+		font-family: var(--font-mono);
+		font-size: 0.85em;
+		background-color: var(--color-code-bg);
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: var(--radius);
+		padding: 0.1rem 0.3rem;
+	}
+
+	[data-theme='dark'] code {
+		border-color: rgba(255, 255, 255, 0.1);
+	}
+
+	/* theme-dependent visibility helpers */
+	[data-theme='dark'] .icon-light {
+		display: none;
+	}
+	html:not([data-theme='dark']) .icon-dark {
+		display: none;
+	}
+
+	/* ---- navbar ---- */
+	.navbar {
+		position: sticky;
+		top: 0;
+		z-index: 200;
+		background-color: var(--color-surface);
+		box-shadow: var(--navbar-shadow);
+	}
+
+	.navbar-inner {
+		max-width: 1140px;
+		margin: 0 auto;
+		height: 3.75rem;
+		padding: 0 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.navbar-brand {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-weight: 700;
+		font-size: 1.0625rem;
+		color: var(--color-text);
+	}
+
+	.navbar-logo {
+		height: 1.75rem;
+		width: auto;
+	}
+
+	.navbar-brand:hover {
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.navbar-links {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.navbar-link {
+		color: var(--color-text);
+		padding: 0.25rem 0.75rem;
+		font-size: 1rem;
+	}
+
+	.navbar-link:hover {
+		color: var(--color-primary);
+		text-decoration: none;
+	}
+
+	#theme-toggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		margin-left: 0.25rem;
+		border: 0;
+		border-radius: 50%;
+		background: none;
+		color: var(--color-text);
+		cursor: pointer;
+	}
+
+	#theme-toggle:hover {
+		background-color: var(--color-hover-overlay);
+	}
+
+	/* ---- footer (Docusaurus "dark" footer style) ---- */
+	.footer {
+		background-color: #303846;
+		color: #ebedf0;
+	}
+
+	.footer-inner {
+		max-width: 1140px;
+		margin: 0 auto;
+		padding: 2rem 1rem;
+	}
+
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem 4rem;
+		margin-bottom: 2rem;
+	}
+
+	.footer-col {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.footer-title {
+		font-weight: 700;
+		margin-bottom: 0.35rem;
+		color: #ffffff;
+	}
+
+	.footer-col a {
+		color: #dadde1;
+		font-size: 0.9375rem;
+	}
+
+	.footer-col a:hover {
+		color: var(--color-primary);
+	}
+
+	.footer-copyright {
+		font-size: 0.875rem;
+		color: #a3aab4;
 	}
 </style>
