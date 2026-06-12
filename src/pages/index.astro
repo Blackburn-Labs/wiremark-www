@@ -42,6 +42,21 @@ import sketch from '../assets/login-sketch.svg?raw';
 		</div>
 	</section>
 
+	<!-- ---- why callout ---- -->
+	<section class="why">
+		<div class="container">
+			<aside class="callout">
+				<p>
+					<strong>Why make your AI agent guess what you mean?</strong>
+					Pasting mockups into a chat makes the agent read pixels and guess
+					at meaning, like describing a song by humming it. Wiremark is the
+					sheet music: a structure your agent reads natively, and you review
+					as a sketch.
+				</p>
+			</aside>
+		</div>
+	</section>
+
 	<!-- ---- demo: source -> sketch ---- -->
 	<section class="demo">
 		<div class="container">
@@ -78,13 +93,14 @@ import sketch from '../assets/login-sketch.svg?raw';
 			<h2>The whole format is three ideas</h2>
 			<div class="cards cards-3">
 				<div class="card">
-					<h3>Component names are MUI names</h3>
+					<h3>Component names you already know</h3>
 					<p>
-						<code>Stack</code>, <code>Box</code>, <code>Typography</code>,
-						<code>Card</code>, <code>Grid</code>, <code>Button</code>,
-						<code>TextField</code>, <code>AppBar</code>, <code>List</code>, …
-						If you would reach for a component in Material UI, reach for the
-						same name here.
+						<code>Stack</code>, <code>Card</code>, <code>Typography</code>,
+						<code>Button</code>, <code>TextField</code>, <code>AppBar</code>,
+						<code>Tabs</code>, <code>Drawer</code>, <code>Avatar</code>, …
+						The vocabulary is wiremark’s own, but it borrows its names from
+						modern UI libraries like Material UI — if you’ve built with one,
+						you can read a wireframe without a reference.
 					</p>
 				</div>
 				<div class="card">
@@ -133,8 +149,8 @@ import sketch from '../assets/login-sketch.svg?raw';
 					<h3>Agent-first</h3>
 					<p>
 						Intentionally low-ambiguity and low-token. An LLM can read, write,
-						and reason about a wireframe with no reference doc, leaning on what
-						it already knows about MUI.
+						and reason about a wireframe with no reference doc, leaning on
+						naming conventions it already knows from libraries like MUI.
 					</p>
 				</div>
 				<div class="feature">
@@ -408,6 +424,35 @@ import sketch from '../assets/login-sketch.svg?raw';
 
 	.button-outline:hover {
 		background-color: var(--color-hover-overlay);
+	}
+
+	/* ---- why callout ---- */
+	.why {
+		padding: 2.75rem 0 0;
+	}
+
+	.callout {
+		max-width: 44rem;
+		margin: 0 auto;
+		padding: 1.25rem 1.5rem;
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border-subtle);
+		border-left: 4px solid var(--color-primary);
+		border-radius: var(--radius);
+		box-shadow: var(--card-shadow);
+		/* same slight tilt as the demo sketch */
+		transform: rotate(-0.3deg);
+	}
+
+	.callout p {
+		margin: 0;
+		color: var(--color-text-secondary);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+	}
+
+	.callout strong {
+		color: var(--color-text);
 	}
 
 	/* ---- demo ---- */
