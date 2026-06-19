@@ -59,13 +59,15 @@ const { title, description } = Astro.props;
 					/>
 					wiremark
 				</a>
-				<div class="navbar-links">
-					<a href="https://docs.wiremark.dev/" class="navbar-link">Docs</a>
-					<a
-						href="https://github.com/Blackburn-Labs/wiremark"
-						class="navbar-link">GitHub</a
-					>
-					<a href="https://editor.wiremark.dev/" class="navbar-cta">File Editor</a>
+				<div class="navbar-actions">
+					<div class="navbar-links" id="navbar-links">
+						<a href="https://docs.wiremark.dev/" class="navbar-link">Docs</a>
+						<a
+							href="https://github.com/Blackburn-Labs/wiremark"
+							class="navbar-link">GitHub</a
+						>
+						<a href="https://editor.wiremark.dev/" class="navbar-cta">File Editor</a>
+					</div>
 					<button
 						id="theme-toggle"
 						type="button"
@@ -82,6 +84,27 @@ const { title, description } = Astro.props;
 							<path
 								fill="currentColor"
 								d="M9.37 5.51A7.35 7.35 0 0 0 9.1 7.5c0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27A7.014 7.014 0 0 1 12 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49zM12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"
+							></path>
+						</svg>
+					</button>
+					<button
+						class="navbar-toggle"
+						id="navbar-toggle"
+						type="button"
+						aria-label="Toggle navigation menu"
+						aria-controls="navbar-links"
+						aria-expanded="false"
+					>
+						<svg class="icon-menu" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+							<path
+								fill="currentColor"
+								d="M3 6h18a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2Zm0 5h18a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2Zm0 5h18a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2Z"
+							></path>
+						</svg>
+						<svg class="icon-close" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+							<path
+								fill="currentColor"
+								d="M6.4 4.99 12 10.59l5.6-5.6a1 1 0 0 1 1.41 1.41L13.41 12l5.6 5.6a1 1 0 0 1-1.41 1.41L12 13.41l-5.6 5.6a1 1 0 0 1-1.41-1.41l5.6-5.6-5.6-5.6A1 1 0 0 1 6.4 4.99Z"
 							></path>
 						</svg>
 					</button>
@@ -125,6 +148,38 @@ const { title, description } = Astro.props;
 					document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
 				document.documentElement.dataset.theme = next;
 				localStorage.setItem('theme', next);
+			});
+
+			// Mobile navigation menu toggle.
+			const navToggle = document.getElementById('navbar-toggle');
+			const navLinks = document.getElementById('navbar-links');
+
+			const closeMenu = () => {
+				navLinks?.classList.remove('open');
+				navToggle?.setAttribute('aria-expanded', 'false');
+			};
+
+			navToggle?.addEventListener('click', (event) => {
+				event.stopPropagation();
+				const open = navLinks?.classList.toggle('open') ?? false;
+				navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+			});
+
+			// Close the menu after following a link.
+			navLinks?.querySelectorAll('a').forEach((link) => {
+				link.addEventListener('click', closeMenu);
+			});
+
+			// Close on outside click or Escape.
+			document.addEventListener('click', (event) => {
+				if (!navLinks?.classList.contains('open')) return;
+				const target = event.target;
+				if (navLinks.contains(target) || navToggle?.contains(target)) return;
+				closeMenu();
+			});
+
+			document.addEventListener('keydown', (event) => {
+				if (event.key === 'Escape') closeMenu();
 			});
 		</script>
 	</body>
@@ -289,6 +344,7 @@ const { title, description } = Astro.props;
 	}
 
 	.navbar-inner {
+		position: relative;
 		max-width: 1140px;
 		margin: 0 auto;
 		height: 3.75rem;
@@ -317,10 +373,46 @@ const { title, description } = Astro.props;
 		text-decoration: none;
 	}
 
+	.navbar-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
 	.navbar-links {
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
+	}
+
+	/* hamburger toggle: hidden on desktop, shown on small screens */
+	.navbar-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 0;
+		border-radius: 50%;
+		background: none;
+		color: var(--color-text);
+		cursor: pointer;
+	}
+
+	.navbar-toggle:hover {
+		background-color: var(--color-hover-overlay);
+	}
+
+	.navbar-toggle .icon-close {
+		display: none;
+	}
+
+	.navbar-toggle[aria-expanded='true'] .icon-menu {
+		display: none;
+	}
+
+	.navbar-toggle[aria-expanded='true'] .icon-close {
+		display: block;
 	}
 
 	.navbar-link {
@@ -369,6 +461,59 @@ const { title, description } = Astro.props;
 
 	#theme-toggle:hover {
 		background-color: var(--color-hover-overlay);
+	}
+
+	/* On phone-size screens the links collapse into a hamburger menu. */
+	@media (max-width: 640px) {
+		.navbar-toggle {
+			display: flex;
+		}
+
+		.navbar-links {
+			position: absolute;
+			top: calc(100% + 0.5rem);
+			right: 1rem;
+			flex-direction: column;
+			align-items: stretch;
+			min-width: 12rem;
+			gap: 0.25rem;
+			padding: 0.5rem;
+			background-color: var(--color-surface);
+			border: 1px solid var(--color-border-subtle);
+			border-radius: var(--radius);
+			box-shadow: var(--navbar-shadow);
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(-0.25rem);
+			transition: opacity 0.15s ease, transform 0.15s ease,
+				visibility 0.15s ease;
+		}
+
+		.navbar-links.open {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
+		.navbar-link {
+			padding: 0.5rem 0.75rem;
+			border-radius: var(--radius);
+		}
+
+		.navbar-link:hover {
+			background-color: var(--color-hover-overlay);
+		}
+
+		.navbar-cta {
+			margin-left: 0;
+			text-align: center;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.navbar-links {
+			transition: none;
+		}
 	}
 
 	/* ---- footer (Docusaurus "dark" footer style) ---- */
